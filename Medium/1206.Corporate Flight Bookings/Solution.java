@@ -3,21 +3,18 @@ class Solution {
         int[] diff = new int[n + 1];
         
         for (int[] booking : bookings) {
-            int first = booking[0];
+            int first = booking[0] - 1;
             int last = booking[1];
             int seats = booking[2];
-            
-            diff[first - 1] += seats;
-            if (last < n) {
-                diff[last] -= seats;
-            }
+            diff[first] += seats;
+            if (last < n) diff[last] -= seats;
         }
         
         int[] answer = new int[n];
-        answer[0] = diff[0];
-        
-        for (int i = 1; i < n; i++) {
-            answer[i] = answer[i - 1] + diff[i];
+        int running = 0;
+        for (int i = 0; i < n; i++) {
+            running += diff[i];
+            answer[i] = running;
         }
         
         return answer;
