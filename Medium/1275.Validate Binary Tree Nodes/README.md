@@ -42,7 +42,7 @@ Constraints:
 class Solution {
     public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
         int[] parent = new int[n];
-        Arrays.fill(parent, -1);
+        java.util.Arrays.fill(parent, -1);
         
         for (int i = 0; i < n; i++) {
             int[] children = {leftChild[i], rightChild[i]};
@@ -64,7 +64,7 @@ class Solution {
         if (root == -1) return false;
         
         boolean[] visited = new boolean[n];
-        Queue<Integer> queue = new ArrayDeque<>();
+        java.util.Queue<Integer> queue = new java.util.LinkedList<>();
         queue.offer(root);
         visited[root] = true;
         int count = 1;
