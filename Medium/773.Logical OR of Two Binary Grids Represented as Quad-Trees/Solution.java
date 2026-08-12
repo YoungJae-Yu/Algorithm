@@ -13,7 +13,9 @@ class Solution {
         Node bottomRight = intersect(quadTree1.bottomRight, quadTree2.bottomRight);
 
         if (topLeft.isLeaf && topRight.isLeaf && bottomLeft.isLeaf && bottomRight.isLeaf
-                && topLeft.val == topRight.val && topRight.val == bottomLeft.val && bottomLeft.val == bottomRight.val) {
+                && topLeft.val == topRight.val
+                && topRight.val == bottomLeft.val
+                && bottomLeft.val == bottomRight.val) {
             return new Node(topLeft.val, true, null, null, null, null);
         }
 
