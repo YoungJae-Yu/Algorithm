@@ -44,8 +44,8 @@ Constraints:
 import java.util.*;
 
 class Solution {
-    private final Map<String, String> parent = new HashMap<>();
-    private final Map<String, String> emailToName = new HashMap<>();
+    private Map<String, String> parent = new HashMap<>();
+    private Map<String, String> emailToName = new HashMap<>();
 
     private String find(String x) {
         parent.putIfAbsent(x, x);
@@ -56,7 +56,10 @@ class Solution {
     }
 
     private void union(String x, String y) {
-        parent.put(find(x), find(y));
+        String px = find(x), py = find(y);
+        if (!px.equals(py)) {
+            parent.put(px, py);
+        }
     }
 
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
