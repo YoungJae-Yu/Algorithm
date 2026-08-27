@@ -30,9 +30,21 @@ Constraints:
 ## 풀이
 
 ```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if (head == null || head.next == null || k == 0) return head;
+        if (head == null || head.next == null) {
+            return head;
+        }
 
         int length = 1;
         ListNode tail = head;
@@ -41,14 +53,15 @@ class Solution {
             length++;
         }
 
-        int rotation = k % length;
-        if (rotation == 0) return head;
+        int shift = k % length;
+        if (shift == 0) {
+            return head;
+        }
 
         tail.next = head;
-
-        int stepsToNewTail = length - rotation - 1;
+        int stepsToNewTail = length - shift;
         ListNode newTail = head;
-        for (int i = 0; i < stepsToNewTail; i++) {
+        for (int i = 1; i < stepsToNewTail; i++) {
             newTail = newTail.next;
         }
 
