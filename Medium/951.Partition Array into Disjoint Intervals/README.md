@@ -1,11 +1,6 @@
 # 951. Partition Array into Disjoint Intervals
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/partition-array-into-disjoint-intervals/ |
-
-## 문제
+https://leetcode.com/problems/partition-array-into-disjoint-intervals/
 
 Given an integer array nums, partition it into two (contiguous) subarrays left and right so that:
 
@@ -37,28 +32,18 @@ Constraints:
 	0 <= nums[i] <= 106
 	There is at least one valid answer for the given input.
 
-## 풀이
-
 ```java
 class Solution {
     public int partitionDisjoint(int[] nums) {
-        int n = nums.length;
-        int[] minFromRight = new int[n];
-        
-        minFromRight[n - 1] = nums[n - 1];
-        for (int i = n - 2; i >= 0; i--) {
-            minFromRight[i] = Math.min(nums[i], minFromRight[i + 1]);
-        }
-        
-        int maxLeft = nums[0];
-        for (int i = 0; i < n - 1; i++) {
-            maxLeft = Math.max(maxLeft, nums[i]);
-            if (maxLeft <= minFromRight[i + 1]) {
-                return i + 1;
+        int leftMax = nums[0], curMax = nums[0], idx = 0;
+        for (int i = 1; i < nums.length; i++) {
+            curMax = Math.max(curMax, nums[i]);
+            if (nums[i] < leftMax) {
+                leftMax = curMax;
+                idx = i;
             }
         }
-        
-        return n - 1;
+        return idx + 1;
     }
 }
 ```
