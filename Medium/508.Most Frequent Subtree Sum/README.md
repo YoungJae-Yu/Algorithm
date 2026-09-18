@@ -1,11 +1,6 @@
 # 508. Most Frequent Subtree Sum
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/most-frequent-subtree-sum/ |
-
-## 문제
+https://leetcode.com/problems/most-frequent-subtree-sum/
 
 Given the root of a binary tree, return the most frequent subtree sum. If there is a tie, return all the values with the highest frequency in any order.
 
@@ -28,30 +23,44 @@ Constraints:
 	The number of nodes in the tree is in the range [1, 104].
 	-105 <= Node.val <= 105
 
-## 풀이
-
 ```java
-import java.util.*;
-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-    private final Map<Integer, Integer> freqMap = new HashMap<>();
+    private java.util.Map<Integer, Integer> count = new java.util.HashMap<>();
+    private int maxFreq = 0;
 
     public int[] findFrequentTreeSum(TreeNode root) {
         dfs(root);
-
-        int maxFreq = Collections.max(freqMap.values());
-
-        return freqMap.entrySet().stream()
-                .filter(e -> e.getValue() == maxFreq)
-                .mapToInt(Map.Entry::getKey)
-                .toArray();
+        java.util.List<Integer> result = new java.util.ArrayList<>();
+        for (java.util.Map.Entry<Integer, Integer> entry : count.entrySet()) {
+            if (entry.getValue() == maxFreq) {
+                result.add(entry.getKey());
+            }
+        }
+        int[] res = new int[result.size()];
+        for (int i = 0; i < res.length; i++) res[i] = result.get(i);
+        return res;
     }
 
     private int dfs(TreeNode node) {
         if (node == null) return 0;
-
         int sum = node.val + dfs(node.left) + dfs(node.right);
-        freqMap.merge(sum, 1, Integer::sum);
+        int freq = count.merge(sum, 1, Integer::sum);
+        maxFreq = Math.max(maxFreq, freq);
         return sum;
     }
 }
