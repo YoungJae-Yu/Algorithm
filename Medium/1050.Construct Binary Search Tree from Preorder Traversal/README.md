@@ -1,11 +1,6 @@
 # 1050. Construct Binary Search Tree from Preorder Traversal
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/ |
-
-## 문제
+https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/
 
 Given an array of integers preorder, which represents the preorder traversal of a BST (i.e., binary search tree), construct the tree and return its root.
 
@@ -33,21 +28,32 @@ Constraints:
 	1 <= preorder[i] <= 1000
 	All the values of preorder are unique.
 
-## 풀이
-
 ```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-    private int index = 0;
+    private int idx = 0;
 
     public TreeNode bstFromPreorder(int[] preorder) {
         return build(preorder, Integer.MAX_VALUE);
     }
 
     private TreeNode build(int[] preorder, int bound) {
-        if (index == preorder.length || preorder[index] > bound) {
-            return null;
-        }
-        TreeNode node = new TreeNode(preorder[index++]);
+        if (idx == preorder.length || preorder[idx] > bound) return null;
+        TreeNode node = new TreeNode(preorder[idx++]);
         node.left = build(preorder, node.val);
         node.right = build(preorder, bound);
         return node;
