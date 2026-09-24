@@ -1,11 +1,6 @@
 # 1183. Statistics from a Large Sample
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/statistics-from-a-large-sample/ |
-
-## 문제
+https://leetcode.com/problems/statistics-from-a-large-sample/
 
 You are given a large sample of integers in the range [0, 255]. Since the sample is so large, it is represented by an array count where count[k] is the number of times that k appears in the sample.
 
@@ -53,57 +48,38 @@ Constraints:
 	1 <= sum(count) <= 109
 	The mode of the sample that count represents is unique.
 
-## 풀이
-
 ```java
 class Solution {
     public double[] sampleStats(int[] count) {
-        int minimum = -1;
-        int maximum = -1;
-        long totalSum = 0;
-        long totalCount = 0;
-        int mode = 0;
-        int maxFrequency = 0;
-        
+        int min = -1, max = -1;
+        long total = 0, sum = 0;
+        long maxFreq = -1;
+        double mode = 0;
         for (int i = 0; i < 256; i++) {
             if (count[i] > 0) {
-                if (minimum == -1) {
-                    minimum = i;
-                }
-                maximum = i;
-                totalSum += (long) i * count[i];
-                totalCount += count[i];
-                if (count[i] > maxFrequency) {
-                    maxFrequency = count[i];
+                if (min == -1) min = i;
+                max = i;
+                total += count[i];
+                sum += (long) count[i] * i;
+                if (count[i] > maxFreq) {
+                    maxFreq = count[i];
                     mode = i;
                 }
             }
         }
-        
-        double mean = (double) totalSum / totalCount;
-        
-        double median;
-        if (totalCount % 2 == 1) {
-            long target = (totalCount + 1) / 2;
-            median = findKth(count, target);
-        } else {
-            long target1 = totalCount / 2;
-            long target2 = totalCount / 2 + 1;
-            median = (findKth(count, target1) + findKth(count, target2)) / 2.0;
-        }
-        
-        return new double[] {minimum, maximum, mean, median, mode};
-    }
-    
-    private double findKth(int[] count, long k) {
-        long cumulative = 0;
+        double mean = (double) sum / total;
+        long mid1 = (total + 1) / 2;
+        long mid2 = (total + 2) / 2;
+        long cum = 0;
+        double m1 = -1, m2 = -1;
         for (int i = 0; i < 256; i++) {
-            cumulative += count[i];
-            if (cumulative >= k) {
-                return i;
-            }
+            cum += count[i];
+            if (m1 == -1 && cum >= mid1) m1 = i;
+            if (m2 == -1 && cum >= mid2) m2 = i;
+            if (m1 != -1 && m2 != -1) break;
         }
-        return -1;
+        double median = (m1 + m2) / 2.0;
+        return new double[]{min, max, mean, median, mode};
     }
 }
 ```
