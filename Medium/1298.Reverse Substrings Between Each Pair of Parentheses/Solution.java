@@ -1,20 +1,20 @@
 class Solution {
     public String reverseParentheses(String s) {
         Deque<StringBuilder> stack = new ArrayDeque<>();
-        stack.push(new StringBuilder());
-        
+        StringBuilder cur = new StringBuilder();
         for (char c : s.toCharArray()) {
             if (c == '(') {
-                stack.push(new StringBuilder());
+                stack.push(cur);
+                cur = new StringBuilder();
             } else if (c == ')') {
-                StringBuilder top = stack.pop();
-                top.reverse();
-                stack.peek().append(top);
+                cur.reverse();
+                StringBuilder prev = stack.pop();
+                prev.append(cur);
+                cur = prev;
             } else {
-                stack.peek().append(c);
+                cur.append(c);
             }
         }
-        
-        return stack.pop().toString();
+        return cur.toString();
     }
 }
