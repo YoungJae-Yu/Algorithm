@@ -1,11 +1,6 @@
 # 274. H-Index
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/h-index/ |
-
-## 문제
+https://leetcode.com/problems/h-index/
 
 Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper, return the researcher&#39;s h-index.
 
@@ -31,26 +26,19 @@ Constraints:
 	1 <= n <= 5000
 	0 <= citations[i] <= 1000
 
-## 풀이
-
 ```java
 class Solution {
     public int hIndex(int[] citations) {
         int n = citations.length;
         int[] count = new int[n + 1];
-        
         for (int c : citations) {
             count[Math.min(c, n)]++;
         }
-        
         int total = 0;
         for (int h = n; h >= 0; h--) {
             total += count[h];
-            if (total >= h) {
-                return h;
-            }
+            if (total >= h) return h;
         }
-        
         return 0;
     }
 }
