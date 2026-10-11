@@ -1,11 +1,6 @@
 # 540. Single Element in a Sorted Array
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/single-element-in-a-sorted-array/ |
-
-## 문제
+https://leetcode.com/problems/single-element-in-a-sorted-array/
 
 You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once.
 
@@ -27,25 +22,20 @@ Constraints:
 	1 <= nums.length <= 105
 	0 <= nums[i] <= 105
 
-## 풀이
-
 ```java
 class Solution {
     public int singleNonDuplicate(int[] nums) {
-        int left = 0, right = nums.length - 1;
-        
-        while (left < right) {
-            int mid = left + (right - left) / 2;
+        int lo = 0, hi = nums.length - 1;
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
             if (mid % 2 == 1) mid--;
-            
             if (nums[mid] == nums[mid + 1]) {
-                left = mid + 2;
+                lo = mid + 2;
             } else {
-                right = mid;
+                hi = mid;
             }
         }
-        
-        return nums[left];
+        return nums[lo];
     }
 }
 ```
