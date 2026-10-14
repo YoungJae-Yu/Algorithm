@@ -1,11 +1,6 @@
 # 304. Range Sum Query 2D - Immutable
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/range-sum-query-2d-immutable/ |
-
-## 문제
+https://leetcode.com/problems/range-sum-query-2d-immutable/
 
 Given a 2D matrix matrix, handle multiple queries of the following type:
 
@@ -44,39 +39,22 @@ Constraints:
 	0 <= col1 <= col2 < n
 	At most 104 calls will be made to sumRegion.
 
-## 풀이
-
 ```java
 class NumMatrix {
-
-    private final int[][] prefix;
+    private int[][] prefix;
 
     public NumMatrix(int[][] matrix) {
-        int m = matrix.length;
-        int n = matrix[0].length;
+        int m = matrix.length, n = matrix[0].length;
         prefix = new int[m + 1][n + 1];
-
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                prefix[i][j] = matrix[i - 1][j - 1]
-                        + prefix[i - 1][j]
-                        + prefix[i][j - 1]
-                        - prefix[i - 1][j - 1];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                prefix[i + 1][j + 1] = prefix[i][j + 1] + prefix[i + 1][j] - prefix[i][j] + matrix[i][j];
             }
         }
     }
 
     public int sumRegion(int row1, int col1, int row2, int col2) {
-        return prefix[row2 + 1][col2 + 1]
-                - prefix[row1][col2 + 1]
-                - prefix[row2 + 1][col1]
-                + prefix[row1][col1];
+        return prefix[row2 + 1][col2 + 1] - prefix[row1][col2 + 1] - prefix[row2 + 1][col1] + prefix[row1][col1];
     }
 }
-
-/**
- * Your NumMatrix object will be instantiated and called as such:
- * NumMatrix obj = new NumMatrix(matrix);
- * int param_1 = obj.sumRegion(row1,col1,row2,col2);
- */
 ```
