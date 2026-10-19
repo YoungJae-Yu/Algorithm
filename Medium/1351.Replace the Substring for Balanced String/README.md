@@ -1,11 +1,6 @@
 # 1351. Replace the Substring for Balanced String
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/replace-the-substring-for-balanced-string/ |
-
-## 문제
+https://leetcode.com/problems/replace-the-substring-for-balanced-string/
 
 You are given a string s of length n containing only four kinds of characters: &#39;Q&#39;, &#39;W&#39;, &#39;E&#39;, and &#39;R&#39;.
 
@@ -40,40 +35,26 @@ Constraints:
 	n is a multiple of 4.
 	s contains only &#39;Q&#39;, &#39;W&#39;, &#39;E&#39;, and &#39;R&#39;.
 
-## 풀이
-
 ```java
 class Solution {
     public int balancedString(String s) {
         int n = s.length();
-        int target = n / 4;
-        
+        int k = n / 4;
         int[] count = new int[128];
-        for (char c : s.toCharArray()) {
-            count[c]++;
-        }
+        for (char c : s.toCharArray()) count[c]++;
         
-        if (count['Q'] == target && count['W'] == target && 
-            count['E'] == target && count['R'] == target) {
-            return 0;
-        }
+        if (count['Q'] == k && count['W'] == k && count['E'] == k && count['R'] == k) return 0;
         
-        int result = n;
-        int left = 0;
-        
+        int left = 0, res = n;
         for (int right = 0; right < n; right++) {
             count[s.charAt(right)]--;
-            
-            while (left <= right && 
-                   count['Q'] <= target && count['W'] <= target && 
-                   count['E'] <= target && count['R'] <= target) {
-                result = Math.min(result, right - left + 1);
+            while (left <= right && count['Q'] <= k && count['W'] <= k && count['E'] <= k && count['R'] <= k) {
+                res = Math.min(res, right - left + 1);
                 count[s.charAt(left)]++;
                 left++;
             }
         }
-        
-        return result;
+        return res;
     }
 }
 ```
