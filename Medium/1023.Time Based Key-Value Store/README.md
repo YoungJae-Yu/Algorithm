@@ -1,11 +1,6 @@
 # 1023. Time Based Key-Value Store
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/time-based-key-value-store/ |
-
-## 문제
+https://leetcode.com/problems/time-based-key-value-store/
 
 Design a time-based key-value data structure that can store multiple values for the same key at different time stamps and retrieve the key&#39;s value at a certain timestamp.
 
@@ -42,51 +37,35 @@ Constraints:
 	All the timestamps timestamp of set are strictly increasing.
 	At most 2 * 105 calls will be made to set and get.
 
-## 풀이
-
 ```java
 import java.util.*;
 
 class TimeMap {
-
-    private final Map<String, List<int[]>> timestampMap;
-    private final Map<String, List<String>> valueMap;
+    private final Map<String, List<int[]>> tsMap = new HashMap<>();
+    private final Map<String, List<String>> valMap = new HashMap<>();
 
     public TimeMap() {
-        timestampMap = new HashMap<>();
-        valueMap = new HashMap<>();
     }
 
     public void set(String key, String value, int timestamp) {
-        timestampMap.computeIfAbsent(key, k -> new ArrayList<>()).add(new int[]{timestamp});
-        valueMap.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+        tsMap.computeIfAbsent(key, k -> new ArrayList<>()).add(new int[]{timestamp});
+        valMap.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
     }
 
     public String get(String key, int timestamp) {
-        if (!timestampMap.containsKey(key)) return "";
-
-        List<int[]> timestamps = timestampMap.get(key);
-        int left = 0, right = timestamps.size() - 1;
-        int result = -1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (timestamps.get(mid)[0] <= timestamp) {
-                result = mid;
-                left = mid + 1;
+        List<int[]> times = tsMap.get(key);
+        if (times == null || times.isEmpty()) return "";
+        int lo = 0, hi = times.size() - 1, res = -1;
+        while (lo <= hi) {
+            int mid = (lo + hi) >>> 1;
+            if (times.get(mid)[0] <= timestamp) {
+                res = mid;
+                lo = mid + 1;
             } else {
-                right = mid - 1;
+                hi = mid - 1;
             }
         }
-
-        return result == -1 ? "" : valueMap.get(key).get(result);
+        return res == -1 ? "" : valMap.get(key).get(res);
     }
 }
-
-/**
- * Your TimeMap object will be instantiated and called as such:
- * TimeMap obj = new TimeMap();
- * obj.set(key,value,timestamp);
- * String param_2 = obj.get(key,timestamp);
- */
 ```
