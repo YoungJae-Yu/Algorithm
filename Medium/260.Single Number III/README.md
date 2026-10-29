@@ -1,11 +1,6 @@
 # 260. Single Number III
 
-| 항목 | 내용 |
-|------|------|
-| 난이도 | Medium |
-| 링크 | https://leetcode.com/problems/single-number-iii/ |
-
-## 문제
+https://leetcode.com/problems/single-number-iii/
 
 Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
 
@@ -35,28 +30,21 @@ Constraints:
 	-231 <= nums[i] <= 231 - 1
 	Each integer in nums will appear twice, only two integers will appear once.
 
-## 풀이
-
 ```java
 class Solution {
     public int[] singleNumber(int[] nums) {
-        int xor = 0;
-        for (int num : nums) {
-            xor ^= num;
-        }
-        
-        int diffBit = xor & (-xor);
-        
-        int a = 0, b = 0;
-        for (int num : nums) {
-            if ((num & diffBit) == 0) {
-                a ^= num;
+        int xorAll = 0;
+        for (int n : nums) xorAll ^= n;
+        int diff = xorAll & (-xorAll);
+        int[] result = new int[2];
+        for (int n : nums) {
+            if ((n & diff) == 0) {
+                result[0] ^= n;
             } else {
-                b ^= num;
+                result[1] ^= n;
             }
         }
-        
-        return new int[]{a, b};
+        return result;
     }
 }
 ```
